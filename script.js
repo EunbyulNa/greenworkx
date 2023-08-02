@@ -60,6 +60,15 @@ return topThree
 
 }
 
-console.log ( getScoredUserJobMatches(1,1,3) )
 
+const displayResult = (userJobs) => {
+    userJobs.forEach((job, index) => {
+      // Format the average score as a percentage with two decimal places
+      const formattedScore = Math.round(job.averageScore)
+      console.log(`You are a good match with '${job.jobName}' with this score ${formattedScore}%`);
+    });
+  };
+  
+  const userJobs = getScoredUserJobMatches(1, 1, 3);
+  displayResult(userJobs);
 
