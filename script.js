@@ -1,17 +1,17 @@
 
 const data = require('./data');
 
-
-const getScoredUserJobMatches = (willingnessToWorkOutdoors,   willingnessToLearnHandsOnSkills, willingnessToWorkWithTechnology, currentAnnualSalaryEquivalent) => 
+const getScoredUserJobMatches = (willingnessToWorkOutdoors, willingnessToLearnHandsOnSkills, willingnessToWorkWithTechnology, currentAnnualSalaryEquivalent) => 
 {
   //0. take inputs
   const inputs = [ willingnessToWorkOutdoors,willingnessToLearnHandsOnSkills, willingnessToWorkWithTechnology ]
  
  //1. transform the input scale (1 to 5) to the data scale (-1 to 1).
   const newInputs = inputs.map((input)=> {
-   return (input - 3) / 2 //[-1,0,1]
+   return (input - 3) / 2 
  })
 
+ //4. Get the score depends on the difference 
  const getMatchScore = (diff) => {
    if(diff === 0){
     return 100
@@ -40,18 +40,19 @@ const dataDiff = data.map((job)=> {
     const matchTech = getMatchScore(diffTechnologyExtent )
 
    
+    //5. Get the average 
     const resultAverage = (matchScoreOutDoor + matchScoreHands + matchTech) / 3 
     
+    //6. Return average, and job name 
     return {
         jobName: job.name,
         averageScore : resultAverage
-
     }
 
 
 })
 
-//Sort the jobs in desending order
+//7. Sort the jobs in desending order, and show top three
 
 dataDiff.sort((a,b) => b.averageScore - a.averageScore)
 const topThree = dataDiff.slice(0,3)
@@ -60,10 +61,10 @@ return topThree
 
 }
 
-
+//8. Display the result
 const displayResult = (userJobs) => {
     userJobs.forEach((job, index) => {
-      // Format the average score as a percentage with two decimal places
+      // Format the average score as a percentage
       const formattedScore = Math.round(job.averageScore)
       console.log(`You are a good match with '${job.jobName}' with this score ${formattedScore}%`);
     });
